@@ -1,4 +1,4 @@
-package fcfs;
+package priority;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -30,12 +30,7 @@ public class MainPanel extends JPanel {
 	public JLabel channel3;
 	public JLabel channel4;
 	public JLabel wait_channel;
-	public JLabel main_channel;
 	public JLabel CPU;
-
-	// public int width = 350;
-	// public int height = 350;
-	// public ImageIcon cpu;
 
 	public MainPanel() {
 		setLayout(null);
@@ -50,24 +45,11 @@ public class MainPanel extends JPanel {
 		three = new JLabel(new ImageIcon("src/images/3.png"));
 		four = new JLabel(new ImageIcon("src/images/4.png"));
 
-		// 下面这句意思是：
-		// 得到此图标的 Image（image.getImage()）
-		// 在此基础上创建它的缩放版本：
-		// 缩放版本的宽度，高度与JLble一致（getScaledInstance(width,height,Image.SCALE_DEFAULT)）
-		// 最后该图像就设置为得到的缩放版本（image.setImage）
-		// cpu = new ImageIcon("src/images/CPU.png");
-		// cpu.setImage(cpu.getImage().getScaledInstance(width, height,
-		// Image.SCALE_DEFAULT));
-		// Image image = cpu.getImage();
-		// image = image.getScaledInstance(width, height, Image.SCALE_DEFAULT);
-		// cpu.setImage(image);
-
 		channel1 = new JLabel("进程一", SwingConstants.CENTER);
 		channel2 = new JLabel("进程二", SwingConstants.CENTER);
 		channel3 = new JLabel("进程三", SwingConstants.CENTER);
 		channel4 = new JLabel("进程四", SwingConstants.CENTER);
 		wait_channel = new JLabel("等待中…", SwingConstants.CENTER);
-		main_channel = new JLabel();
 		CPU = new JLabel("CPU", SwingConstants.CENTER);
 
 		channel1.setBounds(100, 50, 400, 50);
@@ -85,19 +67,15 @@ public class MainPanel extends JPanel {
 		wait_channel.setBounds(500, 30, 50, 390);
 		wait_channel.setOpaque(true);
 		wait_channel.setBackground(new Color(255, 228, 181));
-		main_channel.setBounds(550, 30, 300, 390);
-		main_channel.setOpaque(true);
-		main_channel.setBackground(new Color(72, 209, 204));
-		CPU.setBounds(640, 160, 120, 120);
+		CPU.setBounds(500, 196, 400, 60);
 		CPU.setOpaque(true);
-		CPU.setBackground(new Color(205, 183, 158));
+		CPU.setBackground(new Color(72, 209, 204));
 		CPU.setFont(new java.awt.Font("ITALIC", Font.BOLD, 50));
 
-		one.setBounds(FCFSThread1.x, FCFSThread1.y, 50, 50);
-		two.setBounds(FCFSThread2.x, FCFSThread2.y, 50, 50);
-		three.setBounds(FCFSThread3.x, FCFSThread3.y, 50, 50);
-		four.setBounds(FCFSThread4.x, FCFSThread4.y, 50, 50);
-		// CPU.setBounds(550, 50, width, height);
+		one.setBounds(PriorityThread1.x, PriorityThread1.y, 50, 50);
+		two.setBounds(PriorityThread2.x, PriorityThread2.y, 50, 50);
+		three.setBounds(PriorityThread3.x, PriorityThread3.y, 50, 50);
+		four.setBounds(PriorityThread4.x, PriorityThread4.y, 50, 50);
 
 		start.setBounds(345, 450, 70, 40);
 		reset.setBounds(105, 450, 70, 40);
@@ -110,29 +88,27 @@ public class MainPanel extends JPanel {
 		add(two);
 		add(three);
 		add(four);
-		add(CPU);
 		add(channel1);
 		add(channel2);
 		add(channel3);
 		add(channel4);
 		add(wait_channel);
 		add(CPU);
-		add(main_channel);
 
 		start.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (start.getText() == "暂停") {
-					FCFSThread1.flag = false;
-					FCFSThread2.flag = false;
-					FCFSThread3.flag = false;
-					FCFSThread4.flag = false;
+					PriorityThread1.flag = false;
+					PriorityThread2.flag = false;
+					PriorityThread3.flag = false;
+					PriorityThread4.flag = false;
 					start.setText("继续");
 				} else {
-					FCFSThread1.flag = true;
-					FCFSThread2.flag = true;
-					FCFSThread3.flag = true;
-					FCFSThread4.flag = true;
+					PriorityThread1.flag = true;
+					PriorityThread2.flag = true;
+					PriorityThread3.flag = true;
+					PriorityThread4.flag = true;
 					start.setText("暂停");
 				}
 			}
@@ -141,26 +117,30 @@ public class MainPanel extends JPanel {
 		reset.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				FCFSThread1.x = 100;
-				FCFSThread2.x = 100;
-				FCFSThread3.x = 100;
-				FCFSThread4.x = 100;
-				one.setLocation(FCFSThread1.x, FCFSThread1.y);
-				two.setLocation(FCFSThread2.x, FCFSThread2.y);
-				three.setLocation(FCFSThread3.x, FCFSThread3.y);
-				four.setLocation(FCFSThread4.x, FCFSThread4.y);
+				PriorityThread1.x = 100;
+				PriorityThread1.y = 50;
+				PriorityThread2.x = 100;
+				PriorityThread2.y = 150;
+				PriorityThread3.x = 100;
+				PriorityThread3.y = 250;
+				PriorityThread4.x = 100;
+				PriorityThread4.y = 350;
 				
-				FCFSProcess.sign=0;
-				FCFSThread1.sign=-1;
-				FCFSThread2.sign=-1;
-				FCFSThread3.sign=-1;
-				FCFSThread4.sign=-1;
-				
-				FCFSThread1.flag=false;
-				FCFSThread2.flag=false;
-				FCFSThread3.flag=false;
-				FCFSThread4.flag=false;
-				
+				one.setLocation(PriorityThread1.x, PriorityThread1.y);
+				two.setLocation(PriorityThread2.x, PriorityThread2.y);
+				three.setLocation(PriorityThread3.x, PriorityThread3.y);
+				four.setLocation(PriorityThread4.x, PriorityThread4.y);
+
+				PriorityThread1.arrive = false;
+				PriorityThread2.arrive = false;
+				PriorityThread3.arrive = false;
+				PriorityThread4.arrive = false;
+
+				PriorityThread1.flag = false;
+				PriorityThread2.flag = false;
+				PriorityThread3.flag = false;
+				PriorityThread4.flag = false;
+
 				start.setText("开始");
 			}
 		});
